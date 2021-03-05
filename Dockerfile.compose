@@ -28,5 +28,9 @@ RUN     mkdir -p .static_root
 
 RUN     python manage.py collectstatic
 
+# when you add your database you have to change below part
+RUN     python manage.py migrate
+RUN     python manage.py create_admin
+
 
 CMD ["gunicorn", "config.wsgi", "-c", "gunicorn/prod.py"]
