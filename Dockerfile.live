@@ -1,0 +1,31 @@
+FROM python:3
+
+WORKDIR /app
+
+ENV     SERVICE_NAME 'djangonetes-live'
+ENV     SERVICE_VERSION ''
+
+ENV     DJANGO_SECRET_KEY 'live'
+ENV     DJANGO_DEBUG 0
+ENV     DJANGO_MODE_FREE_HOST 1
+
+ENV     FORCE_SCRIPT_NAME '/live'
+ENV     WHITENOISE_STATIC_PREFIX '/static/'
+
+ADD    ./requirements.txt   /app/
+RUN    pip install -r requirements.txt
+
+ADD    ./config    /app/config/
+ADD    ./service    /app/service/
+
+
+ADD    ./gunicorn       /app/gunicorn/
+ADD    ./manage.py      /app/
+
+RUN     mkdir -p static
+RUN     mkdir -p .static_root
+
+RUN     python manage.py collectstatic
+
+
+CMD ["gunicorn", "config.wsgi", "-c", "gunicorn/prod.py"]

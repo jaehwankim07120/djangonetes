@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  django:
+    container_name: django.service
+    volumes:
+      - ./:/app/
+    build:
+      context: .
+      dockerfile: ./Dockerfile.localhost
+    ports:
+      - "8000:8000"
+    command: >
+        bash -c "gunicorn config.wsgi -b 0.0.0.0:8000"
+#        && python manage.py runserver 127.0.0.1:8000 "
+    expose : 
+      - "8000"
+
+
+  nginx:
+    #restart: always
+    image: nginx:latest
+    container_name: nginx.service
+    volumes: 
+      - ./docker/nginx:/etc/nginx/conf.d
+      - .static_root/:/static
+      - .media_root/:/media
+    ports:
+      - "80:80"
+    depends_on : 
+      - django

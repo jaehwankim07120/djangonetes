@@ -1,0 +1,47 @@
+# Author : Bart Kim
+# Lisence : XbarX
+
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: djangonetes-live
+spec: 
+  selector: 
+    app: djangonetes-live
+  ports: 
+    - port: 80 
+      targetPort: 8000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: djangonetes-live
+  labels:
+    app:  djangonetes-live
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: djangonetes-live
+  template:
+    metadata:
+      labels:
+        app: djangonetes-live
+    spec:
+      containers:
+      - name: djangonetes-live
+        image: djangonetes-live
+        imagePullPolicy: Never
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "0.1"
+          limits:
+            memory: "1024Mi"
+            cpu: "1.0"
+        ports:
+        - containerPort: 8000
+          name: gunicorn
+          

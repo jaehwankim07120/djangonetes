@@ -1,0 +1,162 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@1.0.0
+  slack: circleci/slack@4.1
+
+executors:
+   djangonetes-executor-executor:
+    docker:
+      - image: circleci/python:3.6.7-stretch
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+    working_directory: ~/workspace
+
+jobs:
+  build:
+    executor: djangonetes-executor
+    steps:
+      - checkout
+      - run:
+          name: Git setup
+          command: |
+            ssh -T git@bitbucket.org 
+
+      - run:
+          name : Sub-module install
+          command: |
+            GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_fingerprint'
+            git submodule init
+            git submodule update
+            
+      - restore_cache:
+          keys:
+          - deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          # fallback to using the latest cache if no exact match is found
+          - deps1-
+          
+      - run:
+          name: Install virtual environments
+          command: |
+            pip install --user --upgrade pip
+            pip install --user virtualenv
+            virtualenv ~/workspace/venv
+            source ~/workspace/venv/bin/activate
+
+      - run: 
+          name: Install dependencies
+          command: |
+            source ~/workspace/venv/bin/activate
+            pip install -r requirements.txt
+            
+      - run:
+          name: Run build
+          command: |
+            source ~/workspace/venv/bin/activate
+            python manage.py build
+
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - ./*
+        
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - ./*
+          
+      - store_artifacts:
+          name: Save test reports
+          path: test-reports
+          destination: test-reports
+
+      - store_artifacts:
+          name: Save artifacts - tests
+          path: ~/workspace/rest/test
+          destination: tests
+      
+      - store_artifacts:
+          name: Save artifacts - migrations
+          path: ~/workspace/rest/migrations
+          destination: migrations
+
+      - store_artifacts:
+          name: Save artifacts - settings
+          path: ~/workspace/oplapi
+          destination: settings
+
+  test-base:
+    executor: djangonetes-executor
+    steps:
+      - attach_workspace:
+          at: ~/workspace
+
+      - run:
+          name: Run tests
+          command: |
+            source ~/workspace/venv/bin/activate
+            python manage.py test
+  test-db:
+    executor: djangonetes-executor
+    steps:
+      - attach_workspace:
+          at: ~/workspace
+          
+      - run:
+          name: Run tests
+          command: |
+            source ~/workspace/venv/bin/activate
+            echo "dummy db test"
+  test-api:
+    executor: ople-executor
+    steps:
+      - attach_workspace:
+          at: ~/workspace
+
+      - run:
+          name: Run tests
+          command: |
+            source ~/workspace/venv/bin/activate
+            echo "dummy api test"
+  pre-production:
+    executor: djangonetes-executor
+    steps:
+      - attach_workspace:
+          at: ~/workspace
+
+      - setup_remote_docker
+
+      - run:
+          name: Build docker image
+          command: |
+            source ~/workspace/venv/bin/activate
+            sh .script/build.sh
+
+      - run:
+          name: Deploy docker image
+          command: |
+            source ~/workspace/venv/bin/activate
+            echo "dummy docker deploy"
+            #echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            #docker push $IMAGE_NAME:latest
+
+workflows:
+  build-with-test:
+    jobs:
+      - build
+      - test-base:
+          requires:
+            - build
+      - test-db:
+          context: SLACK
+          requires:
+            - build
+      - test-api:
+          requires:
+            - build
+      - pre-production:
+          requires:
+            - test-base
+            - test-db
+            - test-api

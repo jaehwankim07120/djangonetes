@@ -1,0 +1,47 @@
+# Author : Bart Kim
+# Lisence : XbarX
+
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: djangonetes-dev
+spec: 
+  selector: 
+    app: djangonetes-dev
+  ports: 
+    - port: 80 
+      targetPort: 8000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: djangonetes-dev
+  labels:
+    app:  djangonetes-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: djangonetes-dev
+  template:
+    metadata:
+      labels:
+        app: djangonetes-dev
+    spec:
+      containers:
+      - name: djangonetes-dev
+        image: djangonetes-dev
+        imagePullPolicy: Never
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "0.1"
+          limits:
+            memory: "1024Mi"
+            cpu: "1.0"
+        ports:
+        - containerPort: 8000
+          name: gunicorn
+          
