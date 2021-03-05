@@ -109,7 +109,7 @@ jobs:
             source ~/workspace/venv/bin/activate
             echo "dummy db test"
   test-api:
-    executor: ople-executor
+    executor: djangonetes-executor
     steps:
       - attach_workspace:
           at: ~/workspace
