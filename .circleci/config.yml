@@ -127,8 +127,8 @@ jobs:
           name: Build docker image
           command: |
             source ~/workspace/venv/bin/activate
-            sh .script/compose_build.sh
-            sh .script/docker_build.sh
+            sh .script/kube_build.sh
+#            sh .script/compose_build.sh
 
       - run:
           name: Deploy docker image
