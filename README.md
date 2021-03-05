@@ -3,6 +3,14 @@
 
 ## **Getting Started**
 ---
+```
+default admin
+
+ID: admin
+PW: adminadmin
+
+```
+
 ## **Run: django**
 ---
 ### Install 
