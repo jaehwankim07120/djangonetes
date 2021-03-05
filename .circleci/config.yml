@@ -131,15 +131,14 @@ jobs:
           name: Build docker image
           command: |
             source ~/workspace/venv/bin/activate
-            sh .script/build.sh
+            sh .script/compose_build.sh
+            sh .script/deploy_build.sh
 
       - run:
           name: Deploy docker image
           command: |
             source ~/workspace/venv/bin/activate
             echo "dummy docker deploy"
-            #echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-            #docker push $IMAGE_NAME:latest
 
 workflows:
   build-with-test:
@@ -149,7 +148,6 @@ workflows:
           requires:
             - build
       - test-db:
-          context: SLACK
           requires:
             - build
       - test-api:
