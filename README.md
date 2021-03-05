@@ -3,12 +3,10 @@
 
 ## **Getting Started**
 ---
+### 따로 설정이 없을 경우 기본 어드민(superuser) 계정
 ```
-default admin
-
 ID: admin
 PW: adminadmin
-
 ```
 
 ## **Run: django**
