@@ -5,7 +5,7 @@ orbs:
   slack: circleci/slack@4.1
 
 executors:
-   djangonetes-executor-executor:
+   djangonetes-executor:
     docker:
       - image: circleci/python:3.6.7-stretch
         auth:
