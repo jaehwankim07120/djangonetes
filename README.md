@@ -18,33 +18,52 @@ python manage.py runserver 8000
 ---
 ### Install 
 ```
-```
+python manage.py collectstatic
 
+# when you add your database you have to change below part
+python manage.py migrate
+python manage.py create_admin
+```
 ### Acces
 ```
 python manage.py runserver 8000
 ```
+Now access django at:
 
-
+[`http://localhost:8000`](http://localhost:8000)
 ## **Run: docker-compose(docker desktop)**
 ---
-  접속 : http://localhost:80
-  - docker-compose 를 통해서 port는 변경 가능
-    - 만약 변경한다면 `docker-compose.yml` 과 `docker/nginx/nginx.conf` 를 수정하여 변경
-  - `django-compose` 가 아닌 `> python manage.py runserver 8000` 를 입력했을 경우 http://localhost:8000 으로 접속
-  - ![image](https://user-images.githubusercontent.com/36470472/110161602-f17d9000-7e30-11eb-96ee-71e77b7755c9.png)
-> 만약 `docker-compose` 를 통해서 설치를 진행 했다면, 자동적으로 superuser가 등록되어있다.  `admin / adminadmin`
-> `runserver`를 사용했다면 `python manage.py createsuperuser` 또는 `python manage.py create_admin` 을 통해서 초기 어드민 계정을 생성해야 한다.
+### Install 
+```
+sh .script/compose_build.sh
+sh .script/compose_deploy.sh
+```
+### Acces
+Now access service at:
+
+[`http://localhost:80`](http://localhost:80)
+
+![image](https://user-images.githubusercontent.com/36470472/110161602-f17d9000-7e30-11eb-96ee-71e77b7755c9.png)
+
 ## **Run: kubernetes(docker desktop)**
 ---
-  접속 : http://localhost:80
-  - docker-compose 를 통해서 port는 변경 가능
-    - 만약 변경한다면 `docker-compose.yml` 과 `docker/nginx/nginx.conf` 를 수정하여 변경
-  - `django-compose` 가 아닌 `> python manage.py runserver 8000` 를 입력했을 경우 http://localhost:8000 으로 접속
-  - ![image](https://user-images.githubusercontent.com/36470472/110161602-f17d9000-7e30-11eb-96ee-71e77b7755c9.png)
-> 만약 `docker-compose` 를 통해서 설치를 진행 했다면, 자동적으로 superuser가 등록되어있다.  `admin / adminadmin`
-> `runserver`를 사용했다면 `python manage.py createsuperuser` 또는 `python manage.py create_admin` 을 통해서 초기 어드민 계정을 생성해야 한다.
+### Install 
+```
+sh .script/kube_build.sh
+sh .script/kube_deploy.sh
 
+... few_second..? for boot nginx-ingress
+
+sh .script/kube_ingress.sh
+```
+### Acces
+Now access kubernetes at:
+
+[`http://localhost:node-port/`](http://localhost:node-port/)
+
+[`http://localhost:node-port/live`](http://localhost:node-port/live)
+
+[`http://localhost:node-port/test`](http://localhost:node-port/test)
 ## **Next step**
 ---
 1. Kubernetes 같은 경우 dashboard(alternative먼저) 기본적인 nginx-ingress 를 기점으로 작업 예정. 기존에 사내 프로젝트에서 작업한 내역이 있어서 바로 적용이 가능할 것으로 생각됨
