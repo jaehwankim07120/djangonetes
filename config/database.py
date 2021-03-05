@@ -1,26 +1,28 @@
 # db_setting
 import os
 
-DBSET = 'DEV'
+DJANGO_COMPOSE = str(os.environ.get('DJANGO_COMPOSE', False)).lower() in ['true', '1']
 
-if DBSET == 'LIVE':
+
+if DJANGO_COMPOSE:
     setup = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('DJANGO_DB_NAME', 'orderplus'),
-            'USER': os.environ.get('DJANGO_DB_USERNAME', 'orderplus'),
-            'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', 'x_x@212ho.com'),
-            'HOST': os.environ.get('DJANGO_DB_HOST', 'localhost'),
+            'NAME': os.environ.get('DJANGO_DB_NAME', 'admin'),
+            'USER': os.environ.get('DJANGO_DB_USERNAME', 'admin'),
+            'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', 'adminadmin'),
+            'HOST': os.environ.get('DJANGO_DB_HOST', 'database'),
             'PORT': os.environ.get('DJANGO_DB_PORT', '5432'),
         }
     }
 else:
-    setup = {
+    # You define your db sysetm with online or other container without django-compose
+    setup = setup = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('DJANGO_DB_NAME', 'orderplus'),
-            'USER': os.environ.get('DJANGO_DB_USERNAME', 'orderplus'),
-            'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', 'x_x@212ho.com'),
+            'NAME': os.environ.get('DJANGO_DB_NAME', 'admin'),
+            'USER': os.environ.get('DJANGO_DB_USERNAME', 'admin'),
+            'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', 'adminadmin'),
             'HOST': os.environ.get('DJANGO_DB_HOST', 'localhost'),
             'PORT': os.environ.get('DJANGO_DB_PORT', '5432'),
         }

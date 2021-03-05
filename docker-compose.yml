@@ -1,26 +1,36 @@
 version: '3'
 
 services:
+  database:
+    image: postgres
+    container_name: database
+    volumes:
+      - ./docker/database:/var/lib/postgres/data
+    environment:
+      - POSTGRES_HOST=localhost
+      - POSTGRES_DB=admin
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=adminadmin
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+
   django:
-    container_name: django.service
+    container_name: django
     volumes:
       - ./:/app/
     build:
       context: .
-      dockerfile: ./Dockerfile.localhost
-    ports:
-      - "8000:8000"
-    command: >
-        bash -c "gunicorn config.wsgi -b 0.0.0.0:8000"
-#        && python manage.py runserver 127.0.0.1:8000 "
-    expose : 
-      - "8000"
-
+      dockerfile: ./Dockerfile.compose
+    depends_on : 
+      - database
+    command: bash -c "python manage.py makemigrations &&
+                      python manage.py migrate &&
+                      python manage.py create_admin &&
+                      gunicorn config.wsgi -b 0.0.0.0:8000"
+#                     python manage.py runserver 127.0.0.1:8000 "
 
   nginx:
-    #restart: always
     image: nginx:latest
-    container_name: nginx.service
+    container_name: nginx
     volumes: 
       - ./docker/nginx:/etc/nginx/conf.d
       - .static_root/:/static
