@@ -9,7 +9,7 @@ metadata:
     nginx.ingress.kubernetes.io/add-base-url : "true"
 spec:
   rules:
-  - host: kube.orderplus.io
+  - host: kube.djangonetes.io
     http:
       paths:
       - path: /
