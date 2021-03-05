@@ -61,9 +61,25 @@ Now access kubernetes at:
 
 [`http://localhost:node-port/`](http://localhost:node-port/)
 
+![image](https://user-images.githubusercontent.com/36470472/110166475-c34f7e80-7e37-11eb-8706-cbacae3cd7eb.png)
+
 [`http://localhost:node-port/live`](http://localhost:node-port/live)
 
+![image](https://user-images.githubusercontent.com/36470472/110166537-de21f300-7e37-11eb-8751-8c226dd99126.png)
+
 [`http://localhost:node-port/test`](http://localhost:node-port/test)
+
+![image](https://user-images.githubusercontent.com/36470472/110166592-f134c300-7e37-11eb-9853-0a6b488eec59.png)
+
+![image](https://user-images.githubusercontent.com/36470472/110166646-00b40c00-7e38-11eb-97b6-45d0189e02f7.png)
+
+### NodePort?
+```
+sh .script/kube_status_ingress.sh
+```
+
+![image](https://user-images.githubusercontent.com/36470472/110166720-1cb7ad80-7e38-11eb-9984-b9d0403bd3c0.png)
+
 ## **Next step**
 ---
 1. Kubernetes 같은 경우 dashboard(alternative먼저) 기본적인 nginx-ingress 를 기점으로 작업 예정. 기존에 사내 프로젝트에서 작업한 내역이 있어서 바로 적용이 가능할 것으로 생각됨
