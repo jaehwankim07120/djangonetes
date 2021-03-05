@@ -1,8 +1,10 @@
 # db_setting
+import os
+
 DBSET = 'DEV'
 
 if DBSET == 'LIVE':
-    DATABASES = {
+    setup = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ.get('DJANGO_DB_NAME', 'orderplus'),
@@ -13,7 +15,7 @@ if DBSET == 'LIVE':
         }
     }
 else:
-    DATABASES = {
+    setup = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ.get('DJANGO_DB_NAME', 'orderplus'),

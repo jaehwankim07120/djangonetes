@@ -3,7 +3,6 @@ Django settings for djangonetes project.
 """
 
 import os
-
 from config import database
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -91,7 +90,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
-DATABASES = db_config.DATABASES
+DATABASES = database.setup
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
