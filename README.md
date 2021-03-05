@@ -19,11 +19,13 @@
 
 ## **Run**
 ---
-  http://localhost:80
+  접속 : http://localhost:80
   - docker-compose 를 통해서 port는 변경 가능
     - 만약 변경한다면 `docker-compose.yml` 과 `docker/nginx/nginx.conf` 를 수정하여 변경
   - `django-compose` 가 아닌 `> python manage.py runserver 8000` 를 입력했을 경우 http://localhost:8000 으로 접속
   - ![image](https://user-images.githubusercontent.com/36470472/110161602-f17d9000-7e30-11eb-96ee-71e77b7755c9.png)
+> 만약 `docker-compose` 를 통해서 설치를 진행 했다면, 자동적으로 superuser가 등록되어있습니다.  `admin / adminadmin`
+> `runserver`를 사용했다면 `python manage.py createsuperuser` 또는 `python manage.py create_admin` 을 통해서 초기 어드민 계정을 생성해야 함
 
 ## **Next step**
 ---
