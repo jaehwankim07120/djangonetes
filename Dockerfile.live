@@ -27,6 +27,6 @@ RUN     mkdir -p static
 RUN     mkdir -p .static_root
 
 RUN     python manage.py collectstatic
-
+RUN     python manage.py migrate
 
 CMD ["gunicorn", "config.wsgi", "-c", "gunicorn/prod.py"]
