@@ -18,10 +18,6 @@ jobs:
     executor: djangonetes-executor
     steps:
       - checkout
-      - run:
-          name: Git setup
-          command: |
-            ssh -T git@bitbucket.org 
 
       - run:
           name : Sub-module install
