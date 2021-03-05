@@ -3,17 +3,6 @@
 
 ## **Getting Started**
 ---
-### Install 
-```
-```
-
-### Acces
-```
-python manage.py runserver 8000
-```
-하단 이미지와 같이 서비스가 실행되면 성공
-![image](https://user-images.githubusercontent.com/36470472/110159422-073d8600-7e2e-11eb-9796-866605281333.png)
-
 ## **Run: django**
 ---
 ### Install 
@@ -24,13 +13,18 @@ python manage.py collectstatic
 python manage.py migrate
 python manage.py create_admin
 ```
+
 ### Acces
 ```
 python manage.py runserver 8000
 ```
+
+![image](https://user-images.githubusercontent.com/36470472/110161602-f17d9000-7e30-11eb-96ee-71e77b7755c9.png)
+
 Now access django at:
 
 [`http://localhost:8000`](http://localhost:8000)
+
 ## **Run: docker-compose(docker desktop)**
 ---
 ### Install 
@@ -43,7 +37,8 @@ Now access service at:
 
 [`http://localhost:80`](http://localhost:80)
 
-![image](https://user-images.githubusercontent.com/36470472/110161602-f17d9000-7e30-11eb-96ee-71e77b7755c9.png)
+하단 이미지와 같이 서비스가 실행되면 성공
+![image](https://user-images.githubusercontent.com/36470472/110159422-073d8600-7e2e-11eb-9796-866605281333.png)
 
 ## **Run: kubernetes(docker desktop)**
 ---
