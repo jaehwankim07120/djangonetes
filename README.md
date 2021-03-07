@@ -48,6 +48,12 @@ Now access service at:
 
 ## **Run: kubernetes(docker desktop)**
 ---
+### Setup
+hostname 을 등록해야만 작동함. 하지만 각 OS 별로 127.0.0.1 에 대한 hosts 변경 방법이 달라 변경하면 될 듯
+일단 기본적으로 설정해야 하는 것은 아래와 같음
+```
+127.0.0.1 kuber.djangonetes.io
+```
 ### Install 
 ```
 sh .script/kube_build.sh
@@ -60,15 +66,15 @@ sh .script/kube_ingress.sh
 ### Acces
 Now access kubernetes at:
 
-[`http://localhost:node-port/`](http://localhost:node-port/)
+[`http://kuber.djangonetes.io:node-port/`](http://kuber.djangonetes.io:node-port/)
 
 ![image](https://user-images.githubusercontent.com/36470472/110166475-c34f7e80-7e37-11eb-8706-cbacae3cd7eb.png)
 
-[`http://localhost:node-port/live`](http://localhost:node-port/live)
+[`http://kuber.djangonetes.io:node-port/live`](http://kuber.djangonetes.io:node-port/live)
 
 ![image](https://user-images.githubusercontent.com/36470472/110166537-de21f300-7e37-11eb-8751-8c226dd99126.png)
 
-[`http://localhost:node-port/test`](http://localhost:node-port/test)
+[`http://kuber.djangonetes.io:node-port/test`](http://kuber.djangonetes.io:node-port/test)
 
 ![image](https://user-images.githubusercontent.com/36470472/110166592-f134c300-7e37-11eb-9853-0a6b488eec59.png)
 
